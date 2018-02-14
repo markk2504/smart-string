@@ -34,6 +34,14 @@ class SmartStr(object):
                 'Illegal Smart String raw sequence type {}.'.format(type(raw_sequence)))
 
     @property
+    def init_raw_type(self):
+        """
+        The type of the string of the raw sequence that was used to initialize this instance of
+        the SmartStr object.
+        """
+        return self._init_raw_type
+
+    @property
     def characters(self):
         return self._characters
 

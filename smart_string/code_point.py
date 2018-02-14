@@ -1,7 +1,7 @@
 from enum import Enum
 from smart_string_constants import (
     SmartStrException,
-    StrRawType,
+    StrInitInputType,
 )
 
 
@@ -39,29 +39,33 @@ class CodePointPlaneType(Enum):
 
 class CodePoint(object):
 
-    def __init__(self, raw_sequence):
+    def __init__(self, raw_input):
 
-        if isinstance(raw_sequence, str):
-            self._init_raw_type = StrRawType.UTF_8
-            self._raw_utf_8_sequence = raw_sequence
-            self._raw_utf_16_sequence = None
-            self._unicode_value = self.get_utf_8_code_point_value(raw_sequence)
-        elif isinstance(raw_sequence, unicode):
-            self._init_raw_type = StrRawType.UTF_16
+        if isinstance(raw_input, int):
+            self._init_raw_type = StrInitInputType.UNICODE_VAL
             self._raw_utf_8_sequence = None
-            self._raw_utf_16_sequence = raw_sequence
-            self._unicode_value = self.get_utf_16_code_point_value(raw_sequence)
+            self._raw_utf_16_sequence = None
+            self._unicode_value = self.get_validated_unicode_value(raw_input)
+        elif isinstance(raw_input, str):
+            self._init_raw_type = StrInitInputType.UTF_8
+            self._raw_utf_8_sequence = raw_input
+            self._raw_utf_16_sequence = None
+            self._unicode_value = self.get_utf_8_code_point_value(raw_input)
+        elif isinstance(raw_input, unicode):
+            self._init_raw_type = StrInitInputType.UTF_16
+            self._raw_utf_8_sequence = None
+            self._raw_utf_16_sequence = raw_input
+            self._unicode_value = self.get_utf_16_code_point_value(raw_input)
         else:
             raise SmartStrException(
-                'Illegal Code Point raw sequence type {}.'.format(type(raw_sequence)))
+                'Illegal Code Point raw input type {}.'.format(type(raw_input)))
 
         self._code_point_type = self.get_code_point_type(self._unicode_value)
 
     @property
     def init_raw_type(self):
         """
-        The type of the string of the raw sequence that was used to initialize this instance of
-        the CodePoint object.
+        The type of the input that was used to initialize this instance of the CodePoint object.
         """
         return self._init_raw_type
 
@@ -99,6 +103,15 @@ class CodePoint(object):
         if not self._raw_utf_16_sequence:
             self._raw_utf_16_sequence = self.get_utf_16_code_point_sequence(self._unicode_value)
         return self._raw_utf_16_sequence
+
+    @staticmethod
+    def get_validated_unicode_value(unicode_value):
+        if unicode_value >= 0x0000 and unicode_value <= 0x10FFFF:
+            return unicode_value
+        else:
+            raise SmartStrException(
+                'Int value {} is not a valid value for a Unicode code point'.format(
+                    unicode_value))
 
     @staticmethod
     def get_utf_8_code_point_value(utf_8_raw_sequence):
