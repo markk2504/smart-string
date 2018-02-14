@@ -9,8 +9,10 @@ UNICODE_HIGH_SURROGATE_START = 0xD800
 UNICODE_HIGH_SURROGATE_END = 0xDBFF
 UNICODE_LOW_SURROGATE_START = 0xDC00
 UNICODE_LOW_SURROGATE_END = 0xDFFF
+
 UNICODE_REGIONAL_INDICATOR_START = 0x1F1E6
 UNICODE_REGIONAL_INDICATOR_END = 0x1F1FF
+
 UNICODE_FITZPATRICK_MODIFIER_START = 0x1F3FB
 UNICODE_FITZPATRICK_MODIFIER_END = 0x1F3FF
 
@@ -85,7 +87,7 @@ class CodePoint(object):
 
     @property
     def code_point_plane_type(self):
-        plane_type = self.get_code_point_plane_type(self._code_point_type)
+        plane_type = self.get_code_point_plane_type(self._unicode_value)
         return plane_type
 
     def __str__(self):
@@ -227,8 +229,8 @@ class CodePoint(object):
         return code_point_type
 
     @staticmethod
-    def get_code_point_plane_type(code_point_type):
-        if code_point_type == CodePointType.REGULAR:
+    def get_code_point_plane_type(code_point_unicode_value):
+        if code_point_unicode_value <= 0xFFFF:
             code_point_plane_type = CodePointPlaneType.BASIC_MULTILINGUAL_PLANE
         else:
             code_point_plane_type = CodePointPlaneType.SUPPLEMENTARY_PLANE

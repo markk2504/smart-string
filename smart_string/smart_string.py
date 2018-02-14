@@ -347,3 +347,9 @@ for char in smart_str.characters:
     print 'Value: 0x%X' % char.code_points[0].unicode_value
 
     print'---'
+
+
+uc = u'\uD83D\uDE00\uD83C\uDFFE'
+print uc
+
+print unicode_str_dark_woman

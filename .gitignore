@@ -46,6 +46,9 @@ coverage.xml
 *.cover
 .hypothesis/
 
+# pytest
+.pytest_cache/
+
 # Translations
 *.mo
 *.pot
@@ -99,3 +102,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Other stuff
+.idea/
