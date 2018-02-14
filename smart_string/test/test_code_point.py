@@ -101,9 +101,9 @@ def test_code_point_unicode_value_input_resulting_utf_8_four_bytes():
 
 
 def test_code_point_unicode_value_input_illegal_input():
-    with pytest.raises(SmartStrException) as exeption_info:
+    with pytest.raises(SmartStrException) as exception_info:
         code_point = CodePoint(0x110000)
-    assert exeption_info.type is SmartStrException
+    assert exception_info.type is SmartStrException
 
 
 # Tests for UTF-8 input

@@ -9,7 +9,7 @@ from code_point import (
 from smart_char import SmartChar
 from smart_string_constants import (
     SmartStrException,
-    StrRawType,
+    StrInitInputType,
 )
 
 
@@ -18,13 +18,13 @@ class SmartStr(object):
     def __init__(self, raw_sequence):
 
         if isinstance(raw_sequence, str):
-            self._init_raw_type = StrRawType.UTF_8
+            self._init_raw_type = StrInitInputType.UTF_8
             self._raw_utf_8_sequence = raw_sequence
             self._raw_utf_16_sequence = None
             self._characters = []
             self._process_rew_utf_8_str()
         elif isinstance(raw_sequence, unicode):
-            self._init_raw_type = StrRawType.UTF_16
+            self._init_raw_type = StrInitInputType.UTF_16
             self._raw_utf_8_sequence = None
             self._raw_utf_16_sequence = raw_sequence
             self._characters = []
@@ -40,6 +40,18 @@ class SmartStr(object):
         the SmartStr object.
         """
         return self._init_raw_type
+
+    @property
+    def raw_utf_8_length(self):
+        if not self._raw_utf_8_sequence:
+            self._build_utf_8_sequence_from_characters()
+        return len(self._raw_utf_8_sequence)
+
+    @property
+    def raw_utf_16_length(self):
+        if not self._raw_utf_16_sequence:
+            self._build_utf_16_sequence_from_characters()
+        return len(self._raw_utf_16_sequence)
 
     @property
     def characters(self):
