@@ -1,8 +1,5 @@
 from enum import Enum
-from smart_string_constants import (
-    SmartStrException,
-    StrInitInputType,
-)
+from smart_str_constants import SmartStrException, StrInitInputType
 
 
 UNICODE_HIGH_SURROGATE_START = 0xD800
@@ -45,22 +42,22 @@ class CodePoint(object):
             self._init_raw_type = StrInitInputType.UNICODE_VAL
             self._raw_utf_8_sequence = None
             self._raw_utf_16_sequence = None
-            self._unicode_value = self.get_validated_unicode_value(raw_input)
+            self._unicode_val = self.get_validated_unicode_val(raw_input)
         elif isinstance(raw_input, str):
             self._init_raw_type = StrInitInputType.UTF_8
             self._raw_utf_8_sequence = raw_input
             self._raw_utf_16_sequence = None
-            self._unicode_value = self.get_utf_8_code_point_value(raw_input)
+            self._unicode_val = self.get_utf_8_code_point_val(raw_input)
         elif isinstance(raw_input, unicode):
             self._init_raw_type = StrInitInputType.UTF_16
             self._raw_utf_8_sequence = None
             self._raw_utf_16_sequence = raw_input
-            self._unicode_value = self.get_utf_16_code_point_value(raw_input)
+            self._unicode_val = self.get_utf_16_code_point_val(raw_input)
         else:
             raise SmartStrException(
                 'Illegal Code Point raw input type {}.'.format(type(raw_input)))
 
-        self._code_point_type = self.get_code_point_type(self._unicode_value)
+        self._code_point_type = self.get_code_point_type(self._unicode_val)
 
     @property
     def init_raw_type(self):
@@ -72,18 +69,22 @@ class CodePoint(object):
     @property
     def raw_utf_8_length(self):
         if not self._raw_utf_8_sequence:
-            self._raw_utf_8_sequence = self.get_utf_8_code_point_sequence(self._unicode_value)
+            self._raw_utf_8_sequence = self.get_utf_8_code_point_sequence(self._unicode_val)
         return len(self._raw_utf_8_sequence)
 
     @property
     def raw_utf_16_length(self):
         if not self._raw_utf_16_sequence:
-            self._raw_utf_16_sequence = self.get_utf_16_code_point_sequence(self._unicode_value)
+            self._raw_utf_16_sequence = self.get_utf_16_code_point_sequence(self._unicode_val)
         return len(self._raw_utf_16_sequence)
 
     @property
-    def unicode_value(self):
-        return self._unicode_value
+    def unicode_val(self):
+        return self._unicode_val
+
+    @property
+    def unicode_val_hex_str(self):
+        return '0x{:04X}'.format(self._unicode_val)
 
     @property
     def code_point_type(self):
@@ -91,42 +92,46 @@ class CodePoint(object):
 
     @property
     def code_point_plane_type(self):
-        plane_type = self.get_code_point_plane_type(self._unicode_value)
+        plane_type = self.get_code_point_plane_type(self._unicode_val)
         return plane_type
 
     def __str__(self):
         if not self._raw_utf_8_sequence:
-            self._raw_utf_8_sequence = self.get_utf_8_code_point_sequence(self._unicode_value)
+            self._raw_utf_8_sequence = self.get_utf_8_code_point_sequence(self._unicode_val)
         return self._raw_utf_8_sequence
 
     def __unicode__(self):
         if not self._raw_utf_16_sequence:
-            self._raw_utf_16_sequence = self.get_utf_16_code_point_sequence(self._unicode_value)
+            self._raw_utf_16_sequence = self.get_utf_16_code_point_sequence(self._unicode_val)
         return self._raw_utf_16_sequence
 
+    def __repr__(self):
+        return '{}:({} - \'{}\')'.format(
+            self.__class__.__name__, self.unicode_val_hex_str, str(self))
+
     @staticmethod
-    def get_validated_unicode_value(unicode_value):
-        if unicode_value >= 0x0000 and unicode_value <= 0x10FFFF:
-            return unicode_value
+    def get_validated_unicode_val(unicode_val):
+        if unicode_val >= 0x0000 and unicode_val <= 0x10FFFF:
+            return unicode_val
         else:
             raise SmartStrException(
                 'Int value {} is not a valid value for a Unicode code point'.format(
-                    unicode_value))
+                    unicode_val))
 
     @staticmethod
-    def get_utf_8_code_point_value(utf_8_raw_sequence):
+    def get_utf_8_code_point_val(utf_8_raw_sequence):
 
         utf_8_raw_sequence_len = len(utf_8_raw_sequence)
         if utf_8_raw_sequence_len == 1:
             byte_0_numeric_val = ord(utf_8_raw_sequence[0])
             byte_0_effective_val = byte_0_numeric_val & 0b01111111
-            code_point_value = byte_0_effective_val
+            code_point_val = byte_0_effective_val
         elif utf_8_raw_sequence_len == 2:
             byte_0_numeric_val = ord(utf_8_raw_sequence[0])
             byte_1_numeric_val = ord(utf_8_raw_sequence[1])
             byte_0_effective_val = byte_0_numeric_val & 0b00011111
             byte_1_effective_val = byte_1_numeric_val & 0b00111111
-            code_point_value = (byte_0_effective_val << 6) + byte_1_effective_val
+            code_point_val = (byte_0_effective_val << 6) + byte_1_effective_val
         elif utf_8_raw_sequence_len == 3:
             byte_0_numeric_val = ord(utf_8_raw_sequence[0])
             byte_1_numeric_val = ord(utf_8_raw_sequence[1])
@@ -134,9 +139,9 @@ class CodePoint(object):
             byte_0_effective_val = byte_0_numeric_val & 0b00001111
             byte_1_effective_val = byte_1_numeric_val & 0b00111111
             byte_2_effective_val = byte_2_numeric_val & 0b00111111
-            code_point_value = ((byte_0_effective_val << 12) +
-                                (byte_1_effective_val << 6) +
-                                byte_2_effective_val)
+            code_point_val = ((byte_0_effective_val << 12) +
+                              (byte_1_effective_val << 6) +
+                              byte_2_effective_val)
         elif utf_8_raw_sequence_len == 4:
             byte_0_numeric_val = ord(utf_8_raw_sequence[0])
             byte_1_numeric_val = ord(utf_8_raw_sequence[1])
@@ -146,61 +151,61 @@ class CodePoint(object):
             byte_1_effective_val = byte_1_numeric_val & 0b00111111
             byte_2_effective_val = byte_2_numeric_val & 0b00111111
             byte_3_effective_val = byte_3_numeric_val & 0b00111111
-            code_point_value = ((byte_0_effective_val << 18) +
-                                (byte_1_effective_val << 12) +
-                                (byte_2_effective_val << 6) +
-                                byte_3_effective_val)
+            code_point_val = ((byte_0_effective_val << 18) +
+                              (byte_1_effective_val << 12) +
+                              (byte_2_effective_val << 6) +
+                              byte_3_effective_val)
         else:
             raise SmartStrException(
                 'UTF-8 sequence of length {} does not represent a valid code point.'.format(
                     utf_8_raw_sequence_len))
 
-        return code_point_value
+        return code_point_val
 
     @staticmethod
-    def get_utf_8_code_point_sequence(code_point_unicode_value):
+    def get_utf_8_code_point_sequence(code_point_unicode_val):
 
         utf_8_code_point_sequence = ''
-        if code_point_unicode_value >= 0x0000 and code_point_unicode_value <= 0x007F:
-            byte_0_numeric_val = code_point_unicode_value
+        if code_point_unicode_val >= 0x0000 and code_point_unicode_val <= 0x007F:
+            byte_0_numeric_val = code_point_unicode_val
             utf_8_code_point_sequence = chr(byte_0_numeric_val)
-        elif code_point_unicode_value >= 0x0080 and code_point_unicode_value <= 0x07FF:
-            byte_0_numeric_val = 0b11000000 | (code_point_unicode_value >> 6)
-            byte_1_numeric_val = 0b10000000 | (code_point_unicode_value & 0b00111111)
+        elif code_point_unicode_val >= 0x0080 and code_point_unicode_val <= 0x07FF:
+            byte_0_numeric_val = 0b11000000 | (code_point_unicode_val >> 6)
+            byte_1_numeric_val = 0b10000000 | (code_point_unicode_val & 0b00111111)
             utf_8_code_point_sequence += chr(byte_0_numeric_val)
             utf_8_code_point_sequence += chr(byte_1_numeric_val)
-        elif code_point_unicode_value >= 0x0800 and code_point_unicode_value <= 0xFFFF:
-            byte_0_numeric_val = 0b11100000 | (code_point_unicode_value >> 12)
-            byte_1_numeric_val = 0b10000000 | ((code_point_unicode_value >> 6) & 0b00111111)
-            byte_2_numeric_val = 0b10000000 | (code_point_unicode_value & 0b00111111)
+        elif code_point_unicode_val >= 0x0800 and code_point_unicode_val <= 0xFFFF:
+            byte_0_numeric_val = 0b11100000 | (code_point_unicode_val >> 12)
+            byte_1_numeric_val = 0b10000000 | ((code_point_unicode_val >> 6) & 0b00111111)
+            byte_2_numeric_val = 0b10000000 | (code_point_unicode_val & 0b00111111)
             utf_8_code_point_sequence += chr(byte_0_numeric_val)
             utf_8_code_point_sequence += chr(byte_1_numeric_val)
             utf_8_code_point_sequence += chr(byte_2_numeric_val)
-        elif code_point_unicode_value >= 0x10000 and code_point_unicode_value <= 0x10FFFF:
-            byte_0_numeric_val = 0b11110000 | (code_point_unicode_value >> 18)
-            byte_1_numeric_val = 0b10000000 | ((code_point_unicode_value >> 12) & 0b00111111)
-            byte_2_numeric_val = 0b10000000 | ((code_point_unicode_value >> 6) & 0b00111111)
-            byte_3_numeric_val = 0b10000000 | (code_point_unicode_value & 0b00111111)
+        elif code_point_unicode_val >= 0x10000 and code_point_unicode_val <= 0x10FFFF:
+            byte_0_numeric_val = 0b11110000 | (code_point_unicode_val >> 18)
+            byte_1_numeric_val = 0b10000000 | ((code_point_unicode_val >> 12) & 0b00111111)
+            byte_2_numeric_val = 0b10000000 | ((code_point_unicode_val >> 6) & 0b00111111)
+            byte_3_numeric_val = 0b10000000 | (code_point_unicode_val & 0b00111111)
             utf_8_code_point_sequence += chr(byte_0_numeric_val)
             utf_8_code_point_sequence += chr(byte_1_numeric_val)
             utf_8_code_point_sequence += chr(byte_2_numeric_val)
             utf_8_code_point_sequence += chr(byte_3_numeric_val)
         else:
             raise SmartStrException(
-                'Unicode code point value {} is illegal.'.format(code_point_unicode_value))
+                'Unicode code point value {} is illegal.'.format(code_point_unicode_val))
 
         return utf_8_code_point_sequence
 
     @staticmethod
-    def get_utf_16_code_point_value(utf_16_raw_sequence):
+    def get_utf_16_code_point_val(utf_16_raw_sequence):
 
         utf_16_raw_sequence_len = len(utf_16_raw_sequence)
         if utf_16_raw_sequence_len == 1:
-            code_point_value = ord(utf_16_raw_sequence)
+            code_point_val = ord(utf_16_raw_sequence)
         elif utf_16_raw_sequence_len == 2:
             high_surrogate = utf_16_raw_sequence[0]
             low_surrogate = utf_16_raw_sequence[1]
-            code_point_value = (0x10000 +
+            code_point_val = (0x10000 +
                                 ((ord(high_surrogate) - 0xD800) * 0x400) +
                                 (ord(low_surrogate) - 0xDC00))
         else:
@@ -208,42 +213,42 @@ class CodePoint(object):
                 'UTF-16 sequence of length {} does not represent a valid code point.'.format(
                     len(utf_16_raw_sequence)))
 
-        return code_point_value
+        return code_point_val
 
     @staticmethod
-    def get_utf_16_code_point_sequence(code_point_unicode_value):
+    def get_utf_16_code_point_sequence(code_point_unicode_val):
 
         utf_16_code_point_sequence = u''
-        if code_point_unicode_value >= 0x0000 and code_point_unicode_value <= 0xFFFF:
-            utf_16_code_point_sequence = unichr(code_point_unicode_value)
-        elif code_point_unicode_value >= 0x10000 and code_point_unicode_value <= 0x10FFFF:
-            high_surrogate = ((code_point_unicode_value - 0x10000) / 0x400) + 0xD800
-            low_surrogate = ((code_point_unicode_value - 0x10000) % 0x400) + 0xDC00
+        if code_point_unicode_val >= 0x0000 and code_point_unicode_val <= 0xFFFF:
+            utf_16_code_point_sequence = unichr(code_point_unicode_val)
+        elif code_point_unicode_val >= 0x10000 and code_point_unicode_val <= 0x10FFFF:
+            high_surrogate = ((code_point_unicode_val - 0x10000) / 0x400) + 0xD800
+            low_surrogate = ((code_point_unicode_val - 0x10000) % 0x400) + 0xDC00
             utf_16_code_point_sequence += unichr(high_surrogate)
             utf_16_code_point_sequence += unichr(low_surrogate)
         else:
             raise SmartStrException(
-                'Unicode code point value {} is illegal.'.format(code_point_unicode_value))
+                'Unicode code point value {} is illegal.'.format(code_point_unicode_val))
 
         return utf_16_code_point_sequence
 
     @staticmethod
-    def get_code_point_type(code_point_unicode_value):
-        if (code_point_unicode_value >= UNICODE_REGIONAL_INDICATOR_START and
-                code_point_unicode_value <= UNICODE_REGIONAL_INDICATOR_END):
+    def get_code_point_type(code_point_unicode_val):
+        if (code_point_unicode_val >= UNICODE_REGIONAL_INDICATOR_START and
+                code_point_unicode_val <= UNICODE_REGIONAL_INDICATOR_END):
             code_point_type = CodePointType.REGIONAL_INDICATOR
-        elif code_point_unicode_value in UNICODE_HUMAN_EMOJI_VALUES:
+        elif code_point_unicode_val in UNICODE_HUMAN_EMOJI_VALUES:
             code_point_type = CodePointType.HUMAN_EMOJI
-        elif (code_point_unicode_value >= UNICODE_FITZPATRICK_MODIFIER_START and
-                  code_point_unicode_value <= UNICODE_FITZPATRICK_MODIFIER_END):
+        elif (code_point_unicode_val >= UNICODE_FITZPATRICK_MODIFIER_START and
+                  code_point_unicode_val <= UNICODE_FITZPATRICK_MODIFIER_END):
             code_point_type = CodePointType.FITZPATRICK_MODIFIER
         else:
             code_point_type = CodePointType.REGULAR
         return code_point_type
 
     @staticmethod
-    def get_code_point_plane_type(code_point_unicode_value):
-        if code_point_unicode_value <= 0xFFFF:
+    def get_code_point_plane_type(code_point_unicode_val):
+        if code_point_unicode_val <= 0xFFFF:
             code_point_plane_type = CodePointPlaneType.BASIC_MULTILINGUAL_PLANE
         else:
             code_point_plane_type = CodePointPlaneType.SUPPLEMENTARY_PLANE

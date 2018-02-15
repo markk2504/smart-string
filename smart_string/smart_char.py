@@ -1,6 +1,6 @@
 from enum import Enum
 from code_point import CodePoint
-from smart_string_constants import SmartStrException
+from smart_str_constants import SmartStrException
 
 
 class SmartCharType(Enum):
@@ -61,6 +61,9 @@ class SmartChar(object):
     def __unicode__(self):
         smart_char_unicode = u''.join([unicode(code_point) for code_point in self._code_points])
         return smart_char_unicode
+
+    def __repr__(self):
+        return '{}:(\'{}\')'.format(self.__class__.__name__, str(self))
 
     @staticmethod
     def _validate_list_input(code_points):

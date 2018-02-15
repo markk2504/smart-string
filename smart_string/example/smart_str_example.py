@@ -1,4 +1,4 @@
-from smart_string.smart_string import SmartStr
+from smart_string.smart_str import SmartStr
 
 byte_str_utf_8_space = '\x20'
 
@@ -119,9 +119,9 @@ def main():
         print 'Char {}: {}'.format(i, smart_char)
         print 'Code points Count: {}'.format(smart_char.code_points_count)
         if smart_char.code_points_count == 1:
-            print 'Code Point: 0x{:04X}'.format(smart_char[0].unicode_value)
+            print 'Code Point: {}'.format(smart_char[0].unicode_val_hex_str)
         else:
-            print 'Code Points: 0x{:04X}, 0x{:04X}'.format(smart_char[0].unicode_value, smart_char[1].unicode_value)
+            print 'Code Points: {}, {}'.format(smart_char[0].unicode_val_hex_str, smart_char[1].unicode_val_hex_str)
         print
 
     print '****************************************************************************************'

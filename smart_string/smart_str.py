@@ -7,10 +7,7 @@ from code_point import (
     UNICODE_LOW_SURROGATE_END,
 )
 from smart_char import SmartChar
-from smart_string_constants import (
-    SmartStrException,
-    StrInitInputType,
-)
+from smart_str_constants import SmartStrException, StrInitInputType
 
 
 class SmartStr(object):
@@ -93,6 +90,9 @@ class SmartStr(object):
         if not self._raw_utf_16_sequence:
             self._build_utf_16_sequence_from_characters()
         return self._raw_utf_16_sequence
+
+    def __repr__(self):
+        return '{}:(\'{}\')'.format(self.__class__.__name__, str(self))
 
     def _build_utf_8_sequence_from_characters(self):
         self._raw_utf_8_sequence = ''.join([str(ch) for ch in self._characters])

@@ -1,5 +1,5 @@
-from smart_string.smart_string import SmartStr
-from smart_string.smart_string_constants import SmartStrException, StrInitInputType
+from smart_string.smart_str import SmartStr
+from smart_string.smart_str_constants import SmartStrException, StrInitInputType
 
 
 byte_str_utf_8_space = '\x20'
@@ -94,6 +94,8 @@ def perform_test_for_utf_8_input_sequence(utf_8_input_sequence,
     assert unicode(smart_str) == expected_utf_16_sequence
     assert smart_str.raw_utf_16_length == len(expected_utf_16_sequence)
 
+    assert str(smart_str) in repr(smart_str)
+
 def perform_test_for_utf_16_input_sequence(utf_16_input_sequence,
                                            expected_characters_count,
                                            expected_code_points_count,
@@ -109,6 +111,8 @@ def perform_test_for_utf_16_input_sequence(utf_16_input_sequence,
 
     assert str(smart_str) == expected_utf_8_sequence
     assert smart_str.raw_utf_8_length == len(expected_utf_8_sequence)
+
+    assert str(smart_str) in repr(smart_str)
 
 
 # Tests for UTF-8 input

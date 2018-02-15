@@ -1,7 +1,7 @@
 import pytest
 from smart_string.code_point import CodePoint, CodePointPlaneType
 from smart_string.smart_char import SmartChar, SmartCharType
-from smart_string.smart_string_constants import SmartStrException
+from smart_string.smart_str_constants import SmartStrException
 
 
 def perform_test_for_smart_char(input_code_point_structure,
@@ -29,6 +29,8 @@ def perform_test_for_smart_char(input_code_point_structure,
 
     assert str(smart_char) == expected_utf_8_sequence
     assert unicode(smart_char) == expected_utf_16_sequence
+
+    assert str(smart_char) in repr(smart_char)
 
 def test_smart_char_single_code_point_input():
     # U+0040 - Commercial At
