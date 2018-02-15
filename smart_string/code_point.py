@@ -35,20 +35,26 @@ class CodePointPlaneType(Enum):
 
 
 class CodePoint(object):
+    """
+    This class represents a single Unicode Code Point.
+    """
 
     def __init__(self, raw_input):
 
         if isinstance(raw_input, int):
+            # The code point is initialized with a Unicode numeric value.
             self._init_raw_type = StrInitInputType.UNICODE_VAL
             self._raw_utf_8_sequence = None
             self._raw_utf_16_sequence = None
             self._unicode_val = self.get_validated_unicode_val(raw_input)
         elif isinstance(raw_input, str):
+            # The code point is initialized with a UTF-8 sequence of bytes ('str').
             self._init_raw_type = StrInitInputType.UTF_8
             self._raw_utf_8_sequence = raw_input
             self._raw_utf_16_sequence = None
             self._unicode_val = self.get_utf_8_code_point_val(raw_input)
         elif isinstance(raw_input, unicode):
+            # The code point is initialized with a UTF-16 sequence of words ('unicode').
             self._init_raw_type = StrInitInputType.UTF_16
             self._raw_utf_8_sequence = None
             self._raw_utf_16_sequence = raw_input

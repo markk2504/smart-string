@@ -12,7 +12,7 @@ class SmartCharType(Enum):
 
 class SmartChar(object):
     """
-    This class represents a single graphic character. It can be a simple character like tha
+    This class represents a single graphic character. It can be a simple character like the
     latin letter 'a' (single unicode code point), or a more complicated one like the Latvian
     national flag symbol (two unicode code points), but in both cases the character has a
     single graphic symbol representation.

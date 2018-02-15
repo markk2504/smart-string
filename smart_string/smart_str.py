@@ -11,6 +11,10 @@ from smart_str_constants import SmartStrException, StrInitInputType
 
 
 class SmartStr(object):
+    """
+    This class represents a sequence of characters. It provides smart parsing of UTF-8 ('str')
+    and UTF-16 ('unicode') strings into correct sequence of characters and code points.
+    """
 
     def __init__(self, raw_sequence):
 

@@ -38,41 +38,41 @@ utf_8_str = (
 )
 
 
-unicode_str_space = u'\u0020'
+unicode_str_utf_16_space = u'\u0020'
 
-unicode_str_latin_capital_letter_n = u'\u004E'
-unicode_str_hebrew_letter_tet = u'\u05D8'
-unicode_str_black_scissors = u'\u2702'
-unicode_str_grinning_face = u'\uD83D\uDE00'
+unicode_str_utf_16_latin_capital_letter_n = u'\u004E'
+unicode_str_utf_16_hebrew_letter_tet = u'\u05D8'
+unicode_str_utf_16_black_scissors = u'\u2702'
+unicode_str_utf_16_grinning_face = u'\uD83D\uDE00'
 
-unicode_str_national_flag_symbol_l = u'\uD83C\uDDF1'
-unicode_str_national_flag_symbol_v = u'\uD83C\uDDFB'
-unicode_str_latvian_flag = unicode_str_national_flag_symbol_l + unicode_str_national_flag_symbol_v
+unicode_str_utf_16_national_flag_symbol_l = u'\uD83C\uDDF1'
+unicode_str_utf_16_national_flag_symbol_v = u'\uD83C\uDDFB'
+unicode_str_utf_16_latvian_flag = unicode_str_utf_16_national_flag_symbol_l + unicode_str_utf_16_national_flag_symbol_v
 
-unicode_str_woman = u'\uD83D\uDC69'
-unicode_str_fitzpatrick_type_5 = u'\uD83C\uDFFE'
-unicode_str_dark_woman = unicode_str_woman + unicode_str_fitzpatrick_type_5
+unicode_str_utf_16_woman = u'\uD83D\uDC69'
+unicode_str_utf_16_fitzpatrick_type_5 = u'\uD83C\uDFFE'
+unicode_str_utf_16_dark_woman = unicode_str_utf_16_woman + unicode_str_utf_16_fitzpatrick_type_5
 
 utf_16_str = (
-    unicode_str_latin_capital_letter_n +  # 1 character, 1 code point,  1 word
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_hebrew_letter_tet +       # 1 character, 1 code point,  1 word
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_black_scissors +          # 1 character, 1 code point,  1 word
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_grinning_face +           # 1 character, 1 code point,  2 words
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_national_flag_symbol_l +  # 1 character, 1 code point,  2 words
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_national_flag_symbol_v +  # 1 character, 1 code point,  2 words
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_latvian_flag +            # 1 character, 2 code points, 4 words
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_woman +                   # 1 character, 1 code point,  2 words
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_fitzpatrick_type_5 +      # 1 character, 1 code point,  2 words
-    unicode_str_space +                   # 1 character, 1 code point,  1 word
-    unicode_str_dark_woman                # 1 character, 2 code points, 4 words
+    unicode_str_utf_16_latin_capital_letter_n +  # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_hebrew_letter_tet +       # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_black_scissors +          # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_grinning_face +           # 1 character, 1 code point,  2 words
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_national_flag_symbol_l +  # 1 character, 1 code point,  2 words
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_national_flag_symbol_v +  # 1 character, 1 code point,  2 words
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_latvian_flag +            # 1 character, 2 code points, 4 words
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_woman +                   # 1 character, 1 code point,  2 words
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_fitzpatrick_type_5 +      # 1 character, 1 code point,  2 words
+    unicode_str_utf_16_space +                   # 1 character, 1 code point,  1 word
+    unicode_str_utf_16_dark_woman                # 1 character, 2 code points, 4 words
 )
 
 
@@ -116,7 +116,7 @@ def main():
     print
     for i in range(len(smart_str)):
         smart_char = smart_str[i]
-        print 'Char {}: {}'.format(i, smart_char)
+        print 'Char {}: \'{}\''.format(i, smart_char)
         print 'Code points Count: {}'.format(smart_char.code_points_count)
         if smart_char.code_points_count == 1:
             print 'Code Point: {}'.format(smart_char[0].unicode_val_hex_str)
