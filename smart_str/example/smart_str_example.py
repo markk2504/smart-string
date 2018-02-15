@@ -1,4 +1,4 @@
-from smart_string.smart_str import SmartStr
+from smart_str.smart_str import SmartStr
 
 byte_str_utf_8_space = '\x20'
 
