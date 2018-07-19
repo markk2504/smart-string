@@ -1,7 +1,7 @@
 import pytest
-from smart_str.code_point import CodePoint, CodePointPlaneType
-from smart_str.smart_char import SmartChar, SmartCharType
-from smart_str.smart_str_constants import SmartStrException
+from smart_str import CodePoint, CodePointPlaneType
+from smart_str import SmartChar, SmartCharType
+from smart_str import SmartStrException
 
 
 def perform_test_for_smart_char(input_code_point_structure,

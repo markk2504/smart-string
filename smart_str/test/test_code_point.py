@@ -1,6 +1,6 @@
 import pytest
-from smart_str.code_point import CodePoint, CodePointType, CodePointPlaneType
-from smart_str.smart_str_constants import SmartStrException, StrInitInputType
+from smart_str import CodePoint, CodePointType, CodePointPlaneType
+from smart_str import SmartStrException, StrInitInputType
 
 
 def perform_test_for_unicode_value_input(input_unicode_val,
