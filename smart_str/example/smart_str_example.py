@@ -90,7 +90,7 @@ def main():
     print
     print 'The same happens for UTF-16 strings, represented in python \'unicode\' objects.'
     print 'Here is the same UTF-16 string, represented in python \'unicode\' object - \'utf_16_str\':'
-    print utf_16_str
+    print utf_16_str.encode('utf-8')
     print
     print 'The length of the string is not accordant with the number of the actual characters in the string in this case as well.'
     print 'The string length acquired by calling \'len(utf_16_str)\' is {}, though the number of characters is still 19.'.format(len(utf_16_str))
@@ -109,7 +109,7 @@ def main():
     print 'Code points count: {}'.format(smart_str.code_points_count)
     print 'Accordant UTF-8 str: {}'.format(str(smart_str))
     print 'Accordant UTF-8 str length: {}'.format(smart_str.raw_utf_8_length)
-    print u'Accordant UTF-16 str: {}'.format(unicode(smart_str))
+    print u'Accordant UTF-16 str: {}'.format(unicode(smart_str)).encode('utf-8')
     print 'Accordant UTF-16 str length: {}'.format(smart_str.raw_utf_16_length)
     print
     print 'Here are the characters of the Smart Str:'
