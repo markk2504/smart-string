@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='smart-string',
-      version='0.1',
+      version='0.2',
       description='Smart String implementation',
       url='https://github.com/markk2504/smart-string',
       author='Mark Kaplan',
