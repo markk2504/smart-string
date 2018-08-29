@@ -18,10 +18,9 @@ Go to the location of the example file in a terminal and run the example script.
 
 ### Running the tests
 To run the tests make sure that the pytest package is installed on your system.  
-Go to the location of the tests directory in a terminal and run the tests. You can run all the tests in the  
-tests directory, all the tests in a single module, or a single test in a module.
+Go to the location of the tests directory in a terminal and run the tests. You can run all the tests in  
+the tests directory, all the tests in a single module, or a single test in a module.  
 `cd <smart-string package location>/smart_str/tests`  
-`pytest .` - Run all the tests in the tests directory  
-`pytest test_code_point.py` - Run all the tests in a single module  
-`pytest test_code_point.py::test_code_point_utf_8_four_bytes` - Run single test in a module  
- 
+`pytest .` - Run all the tests in the tests directory.  
+`pytest test_code_point.py` - Run all the tests in a single module.  
+`pytest test_code_point.py::test_code_point_utf_8_four_bytes` - Run single test in a module.  
