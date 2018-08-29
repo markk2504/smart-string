@@ -9,7 +9,7 @@ with open(path.join(current_dir, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='smart-string',
-      version='0.0.4',
+      version='0.0.5',
       description='Smart String implementation',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -27,7 +27,7 @@ setup(name='smart-string',
 
           # Indicate who your project is intended for
           'Intended Audience :: Developers',
-          'Topic :: Software Development :: Libraries :: Python Modules'
+          'Topic :: Software Development :: Libraries :: Python Modules',
 
           # Pick your license as you wish
           'License :: OSI Approved :: MIT License',
