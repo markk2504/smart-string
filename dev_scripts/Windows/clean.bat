@@ -13,5 +13,3 @@ for /d %%x in (dist\*) do @rd "%%x" /s /q
 
 del /s /f /q smart_string.egg-info\*
 for /d %%x in (smart_string.egg-info\*) do @rd "%%x" /s /q
-
-pause

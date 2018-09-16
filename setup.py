@@ -9,7 +9,7 @@ with open(path.join(current_dir, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='smart-string',
-      version='0.0.9',
+      version='0.0.10',
       description='Smart String implementation',
       long_description=long_description,
       long_description_content_type='text/markdown',

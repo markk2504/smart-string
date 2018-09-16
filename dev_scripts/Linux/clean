@@ -1,0 +1,12 @@
+echo "Clean"
+
+find . -name "*.pyc" -exec rm -fv {} \;
+
+rm -rfv .pytest_cache
+rm -rfv smart_str/tests/__pycache__
+
+rm -rfv build/*
+
+rm -rfv dist/*
+
+rm -rfv smart_string.egg-info/*
